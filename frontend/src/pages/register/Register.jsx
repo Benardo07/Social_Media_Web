@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./register.scss";
 import axios from "axios";
+import Dialog from "../../components/Dialog/Dialog";
 
 const Register = () => {
   const [inputs, setInputs] = useState({
@@ -10,6 +11,8 @@ const Register = () => {
     password: "",
     name: "",
   });
+  const [dialog, setDialog] = useState({ show: false, type: "", message: "" });
+
   const [err, setErr] = useState(null);
 
   const handleChange = (e) => {
@@ -21,8 +24,16 @@ const Register = () => {
 
     try {
       await axios.post("http://localhost:8800/api/auth/register", inputs);
+      setDialog({ show: true, type: "success", message: "Registration successful!" });
+      setTimeout(() => {
+        setDialog({ show: false, type: "", message: "" });
+      }, 3000);
     } catch (err) {
       setErr(err.response.data);
+      setDialog({ show: true, type: "error", message: err.response.data || "Registration failed!" });
+      setTimeout(() => {
+        setDialog({ show: false, type: "", message: "" });
+      }, 3000); 
     }
   };
 
@@ -78,6 +89,9 @@ const Register = () => {
           </form>
         </div>
       </div>
+      {dialog.show && (
+        <Dialog type={dialog.type} message={dialog.message} onClose={() => setDialog({ ...dialog, show: false })} />
+      )}
     </div>
   );
 };

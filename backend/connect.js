@@ -1,14 +1,17 @@
 import mysql from "mysql2";
 import { faker } from '@faker-js/faker';
 
-export const db = mysql.createConnection({
-    host: "mysql-24ee0c8a-social-app.h.aivencloud.com",
-    user: "avnadmin",
-    password: "AVNS_R9C8MGWouZtodpAK8nD",
-    database: "social-app",
-    port: 25034
-});
+import dotenv from 'dotenv';
 
+dotenv.config();
+
+export const db = mysql.createConnection({
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    // password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+    port: process.env.DB_PORT
+});
 db.connect(err => {
     if (err) {
         console.error('Error connecting to the database:', err);

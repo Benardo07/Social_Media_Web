@@ -14,7 +14,7 @@ const Stories = () => {
   return (
     <div className="stories">
       <div className="story">
-        <img src={currentUser.profilePic} alt="" />
+        <img src={"/upload/" + (currentUser.profilePic && currentUser.profilePic !== "null" ? currentUser.profilePic : "defaultProfile.jpeg")} alt="" />
         <span>{currentUser.name}</span>
         <button>+</button>
       </div>
@@ -22,7 +22,7 @@ const Stories = () => {
        isLoading ? "loading" :
        data.map((story) => (
           <div className="story" key={story.id}>
-            <img src={story.img} alt="" />
+            <img src={"/upload/" + (story.img && story.img !== "null" ? story.img : "default_image.jpeg")} alt="" />
             <span>{story.name}</span>
           </div>
         ))

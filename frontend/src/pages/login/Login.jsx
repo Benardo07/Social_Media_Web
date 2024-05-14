@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/authContext";
+import Dialog from "../../components/Dialog/Dialog";
 import "./login.scss";
 
 const Login = () => {
@@ -9,6 +10,7 @@ const Login = () => {
     password: "",
   });
   const [err, setErr] = useState("");
+  const [dialog, setDialog] = useState({ show: false, type: "", message: "" });
 
   const navigate = useNavigate();
   const { login } = useContext(AuthContext);
@@ -21,10 +23,18 @@ const Login = () => {
     e.preventDefault();  // This prevents the default form submission
     try {
       await login(inputs);
+      setDialog({ show: true, type: "success", message: "Registration successful!" });
+      setTimeout(() => {
+        setDialog({ show: false, type: "", message: "" });
+      }, 3000);
       navigate("/");
     } catch (err) {
       // Ensure the error is in a readable format, possibly not directly err.response.data
       setErr(err.response?.data || "An unexpected error occurred");
+      setDialog({ show: true, type: "error", message: err.response.data || "Registration failed!" });
+      setTimeout(() => {
+        setDialog({ show: false, type: "", message: "" });
+      }, 3000); 
     }
   };
 
@@ -64,6 +74,9 @@ const Login = () => {
           </form>
         </div>
       </div>
+      {dialog.show && (
+        <Dialog type={dialog.type} message={dialog.message} onClose={() => setDialog({ ...dialog, show: false })} />
+      )}
     </div>
   );
 };

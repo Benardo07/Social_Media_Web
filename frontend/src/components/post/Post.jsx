@@ -51,7 +51,7 @@ const Post = ({ post }) => {
       <div className="container">
         <div className="user">
           <div className="userInfo">
-            <img src={post.profilePic} alt="" />
+            <img src={"/upload/" + (post.profilePic && post.profilePic !== "null" ? post.profilePic : "defaultProfile.jpeg")} alt="" />
             <div className="details">
               <Link to={`/profile/${post.userId}`} style={{ textDecoration: "none", color: "inherit" }}>
                 <span className="name">{post.name}</span>
@@ -66,7 +66,7 @@ const Post = ({ post }) => {
         </div>
         <div className="content">
           <p>{post.desc}</p>
-          <img src={post.img} alt="" />
+          <img src={"/upload/" + (post.img && post.img !== "null" ? post.img : "default_image.jpeg")} alt="" />
         </div>
         <div className="info">
           <div className="item">

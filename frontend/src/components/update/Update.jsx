@@ -3,8 +3,11 @@ import { makeRequest } from "../../axios";
 import "./update.scss";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import { useContext } from "react";
+import { AuthContext } from "../../context/authContext";
 
 const Update = ({ setOpenUpdate, user }) => {
+  const { currentUser, setCurrentUser } = useContext(AuthContext); 
   const [cover, setCover] = useState(null);
   const [profile, setProfile] = useState(null);
   const [texts, setTexts] = useState({
@@ -16,7 +19,7 @@ const Update = ({ setOpenUpdate, user }) => {
   });
 
   const upload = async (file) => {
-    console.log(file)
+    console.log(file);
     try {
       const formData = new FormData();
       formData.append("file", file);
@@ -33,32 +36,29 @@ const Update = ({ setOpenUpdate, user }) => {
 
   const queryClient = useQueryClient();
 
-  const mutation = useMutation(
-    (user) => {
-      return makeRequest.put("/users", user);
-    },
-    {
-      onSuccess: () => {
-        // Invalidate and refetch
-        queryClient.invalidateQueries(["user"]);
-      },
-    }
-  );
+  const mutation = useMutation({
+    mutationFn: (user) => makeRequest.put("/users", user),
+    onSuccess: (data) => {
+      // Assuming 'data' is the updated user data returned from the server
+      console.log("Updated user data:", data.data);
+      setCurrentUser(data.data); // Update the context with the new user data
+
+      queryClient.invalidateQueries(['user']); // Optionally invalidate queries if other components also use this data
+  },
+  });
 
   const handleClick = async (e) => {
     e.preventDefault();
 
-    //TODO: find a better way to get image URL
-    
-    let coverUrl;
-    let profileUrl;
-    coverUrl = cover ? await upload(cover) : user.coverPic;
-    profileUrl = profile ? await upload(profile) : user.profilePic;
+    let coverUrl = cover ? await upload(cover) : user.coverPic;
+    let profileUrl = profile ? await upload(profile) : user.profilePic;
     
     mutation.mutate({ ...texts, coverPic: coverUrl, profilePic: profileUrl });
     setOpenUpdate(false);
     setCover(null);
     setProfile(null);
+  };
+
 
   return (
     <div className="update">
@@ -151,5 +151,5 @@ const Update = ({ setOpenUpdate, user }) => {
     </div>
   );
 };
-}
+
 export default Update;
