@@ -4,10 +4,12 @@ import jwt from "jsonwebtoken";
 export const getUser = (req, res) => {
   const userId = req.params.userId;
   const q = "SELECT * FROM users WHERE id=?";
-
+  return res.json({message: "halo"})
   db.query(q, [userId], (err, data) => {
     if (err) return res.status(500).json(err);
     const { password, ...info } = data[0];
+    console.log("hi")
+    console.log(data[0])
     return res.json(info);
   });
 };
