@@ -11,18 +11,40 @@ import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { DarkModeContext } from "../../context/darkModeContext";
 import { AuthContext } from "../../context/authContext";
+import axios from "axios";
+import { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
   const { toggle, darkMode } = useContext(DarkModeContext);
   const { currentUser } = useContext(AuthContext);
+  const [ err, setErr] = useState(null);
+  
+  const { setCurrentUser } = useContext(AuthContext);  // Correctly placed at the top level
+  const navigate = useNavigate();  // Correctly placed at the top level
+
+  const handleLogout = async (e) => {
+    e.preventDefault();  // Prevent the default action of the event (e.g., form submission)
+
+    try {
+      const response = await axios.post("http://localhost:8800/api/auth/logout");
+      setCurrentUser(null);  // Clear the current user
+      navigate('/login', { replace: true });  // Redirect to login page
+      console.log("Logged out successfully:", response.data);
+    } catch (err) {
+      console.error("Error during logout:", err.message);
+      // More detailed error handling can be implemented here
+    }
+  };
+  
 
   return (
     <div className="navbar">
       <div className="left">
         <Link to="/" style={{ textDecoration: "none" }}>
-          <span>lamasocial</span>
+          <span>BenSola.</span>
         </Link>
-        <HomeOutlinedIcon />
+        <Link to="/"><HomeOutlinedIcon /></Link>
         {darkMode ? (
           <WbSunnyOutlinedIcon onClick={toggle} />
         ) : (
@@ -35,12 +57,13 @@ const Navbar = () => {
         </div>
       </div>
       <div className="right">
+        <button onClick={handleLogout} className="logout">Log Out</button>
         <PersonOutlinedIcon />
         <EmailOutlinedIcon />
         <NotificationsOutlinedIcon />
         <div className="user">
           <img
-            src={"/upload/" + currentUser.profilePic}
+            src={currentUser.profilePic}
             alt=""
           />
           <span>{currentUser.name}</span>

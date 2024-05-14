@@ -35,7 +35,7 @@ const Comments = ({ postId }) => {
   return (
     <div className="comments">
       <div className="write">
-        <img src={"/upload/" + currentUser.profilePic} alt="" />
+        <img src={currentUser.profilePic} alt="" />
         <input
           type="text"
           placeholder="write a comment"
@@ -51,7 +51,7 @@ const Comments = ({ postId }) => {
       ) : (
         data && data.map((comment) => (
           <div key={comment.id} className="comment"> {/* Assuming each comment has a unique `id` */}
-            <img src={"/upload/" + comment.profilePic} alt="" />
+            <img src={comment.profilePic} alt="" />
             <div className="info">
               <span>{comment.name}</span>
               <p>{comment.desc}</p>

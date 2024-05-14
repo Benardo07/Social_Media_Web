@@ -59,6 +59,32 @@
         display: none;
       }
 
+      button.logout {
+        background-color: #ff4d4f; // Red color for a logout action
+        color: white; // White text color for contrast
+        font-size: 16px; // Medium font size for readability
+        padding: 10px 20px; // Padding to increase the button's size and make it more clickable
+        border: none; // Remove default border
+        border-radius: 5px; // Slightly rounded corners
+        cursor: pointer; // Cursor indicates button can be clicked
+        transition: background-color 0.3s, transform 0.2s; // Smooth transition for hover effects
+      
+        &:hover {
+          background-color: #ff7875; // Lighter red on hover
+          transform: scale(1.05); // Slightly enlarge button on hover
+        }
+      
+        &:active {
+          background-color: #d9363e; // Darker red when the button is clicked
+          transform: scale(0.95); // Slightly shrink button on active
+        }
+      
+        &:focus {
+          outline: none; // Remove outline on focus to maintain the style
+          box-shadow: 0 0 0 2px rgba(255, 77, 79, 0.5); // Add a glow effect on focus for accessibility
+        }
+      }
+
       .user {
         display: flex;
         align-items: center;

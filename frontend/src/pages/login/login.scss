@@ -1,0 +1,113 @@
+.login {
+  height: 100vh;
+  background-color: rgb(193, 190, 255);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .card {
+    width: 90%; /* Make the card a bit smaller than full width for better margin */
+    max-width: 1200px; /* Ensuring the card doesn't get too wide on larger screens */
+    display: flex;
+    flex-direction: row; /* Default to row, but will change on smaller screens */
+    background-color: white;
+    border-radius: 10px;
+    min-height: 600px;
+    overflow: hidden;
+
+    .left, .right {
+      flex: 1;
+      padding: 50px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .left {
+      background: linear-gradient(rgba(39, 11, 96, 0.5), rgba(39, 11, 96, 0.5)),
+        url("https://images.pexels.com/photos/3228727/pexels-photo-3228727.jpeg?auto=compress&cs=tinysrgb&w=1600")
+          center;
+      background-size: cover;
+      color: white;
+    }
+
+    .right {
+
+      h1 {
+        color: #555;
+        font-size: 50px;
+      }
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+        
+        input {
+          border: none;
+          border-bottom: 1px solid lightgray;
+          padding: 20px 10px;
+        }
+        
+        button {
+          width: 50%;
+          padding: 10px;
+          border: none;
+          background-color: #938eef;
+          color: white;
+          font-weight: bold;
+          cursor: pointer;
+        }
+      }
+
+      .haveaccount{
+        display: flex;
+        gap: 10px;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .login {
+    padding-left: 80px;
+    padding-right: 80px;
+  }
+  .login .card {
+    flex-direction: column; /* Stack vertically on smaller screens */
+    min-height: auto; /* Adjust min-height as per content */
+    align-items: center;
+    padding: 40px; /* Center align the remaining content */
+  }
+
+  .login .card .left {
+    display: none; /* Hide the left div on smaller screens */
+  }
+
+  .login .card .right {
+    padding: 30px; /* Adjust padding for smaller screens */
+    width: 100%; /* Take full width */
+  }
+
+  .login .card .right h1 {
+    font-size: 30px; /* Adjust font size for smaller screens */
+  }
+
+  .login .card .right p {
+    font-size: 14px; /* Smaller text */
+  }
+}
+
+@media (max-width: 480px) {
+  .login {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+  .login .card {
+    width: 100%; /* Full width on very small screens */
+    padding: 20px; /* Less padding around */
+  }
+
+  .login .card .right {
+    padding: 20px; /* Uniform padding */
+  }
+}
