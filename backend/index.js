@@ -32,7 +32,8 @@ app.use('/uploads', express.static('uploads'));
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     // Set the destination to 'uploads' folder at the root of your backend directory
-    cb(null, './uploads');
+    const uploadDir = path.join(__dirname, 'uploads');
+    cb(null, uploadDir);
   },
   filename: function (req, file, cb) {
     // Name the file with a timestamp prefix to avoid naming conflicts
