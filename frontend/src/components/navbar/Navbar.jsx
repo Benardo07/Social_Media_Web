@@ -27,7 +27,7 @@ const Navbar = () => {
     e.preventDefault();  // Prevent the default action of the event (e.g., form submission)
 
     try {
-      const response = await axios.post("http://localhost:8800/api/auth/logout");
+      const response = await axios.post("https://social-media-web-api.vercel.app/api/auth/logout");
       setCurrentUser(null);  // Clear the current user
       navigate('/login', { replace: true });  // Redirect to login page
       console.log("Logged out successfully:", response.data);

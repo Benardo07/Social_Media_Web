@@ -23,7 +23,7 @@ const Register = () => {
     e.preventDefault();
 
     try {
-      await axios.post("http://localhost:8800/api/auth/register", inputs);
+      await axios.post("https://social-media-web-api.vercel.app/api/auth/register", inputs);
       setDialog({ show: true, type: "success", message: "Registration successful!" });
       setTimeout(() => {
         setDialog({ show: false, type: "", message: "" });
