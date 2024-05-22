@@ -22,6 +22,7 @@ app.use(express.json());
 app.use(
     cors({
       origin: "https://social-media-web-ten.vercel.app",
+      credentials: true
     })
   );
 app.use(cookieParser());
