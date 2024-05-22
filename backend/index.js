@@ -47,12 +47,15 @@ const upload = multer({ storage: storage });
 app.post("/api/upload", upload.single("file"), (req, res) => {
   const file = req.file;
   if (!file) {
-    return res.status(400).send('Please upload a file.');
+    return res.status(400).send('No file uploaded.');
   }
   res.status(200).json({
     message: "File uploaded successfully",
     filename: file.filename
   });
+}, (error, req, res, next) => {
+  console.error('Error during file upload:', error);
+  res.status(500).send(`Failed to upload file: ${error.message}`);
 });
 
 app.use("/api/auth", authRoutes);
