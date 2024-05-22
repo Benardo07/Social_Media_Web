@@ -9,6 +9,7 @@ import relationshipRoutes from "./src/route/relationships.js";
 import cors from "cors";
 import multer from "multer";
 import cookieParser from "cookie-parser";
+const path = require('path');
 
 
 
@@ -19,12 +20,14 @@ app.use((req, res, next) => {
   });
 app.use(express.json());
 
-app.use(
-    cors({
-      origin: "https://social-media-web-ten.vercel.app",
-      credentials: true
-    })
-  );
+const corsOptions = {
+  origin: 'https://social-media-web-ten.vercel.app', // This should match the URL of your frontend
+  credentials: true, // This is important for sending cookies and authorization headers with the request
+  
+};
+app.options('*', cors(corsOptions));
+
+app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use('/uploads', express.static('uploads'));
 
