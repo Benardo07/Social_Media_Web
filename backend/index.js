@@ -26,22 +26,33 @@ app.use(
     })
   );
 app.use(cookieParser());
+app.use('/uploads', express.static('uploads'));
 
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "../frontend/public/upload");
+    // Set the destination to 'uploads' folder at the root of your backend directory
+    cb(null, './uploads');
   },
   filename: function (req, file, cb) {
-    cb(null, Date.now() + file.originalname);
-  },
+    // Name the file with a timestamp prefix to avoid naming conflicts
+    cb(null, Date.now() + '-' + file.originalname);
+  }
 });
 
+// Create the multer instance that will be used to upload files
 const upload = multer({ storage: storage });
 
+// Route to handle file uploads
 app.post("/api/upload", upload.single("file"), (req, res) => {
   const file = req.file;
-  res.status(200).json(file.filename);
+  if (!file) {
+    return res.status(400).send('Please upload a file.');
+  }
+  res.status(200).json({
+    message: "File uploaded successfully",
+    filename: file.filename
+  });
 });
 
 app.use("/api/auth", authRoutes);
