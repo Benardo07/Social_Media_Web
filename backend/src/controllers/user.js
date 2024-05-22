@@ -5,11 +5,10 @@ export const getUser = (req, res) => {
   const userId = req.params.userId;
   const q = "SELECT * FROM users WHERE id=?";
   // return res.json({message: "halo"})
+  db.connect()
   db.query(q, [userId], (err, data) => {
     if (err) return res.status(500).json(err);
     const { password, ...info } = data[0];
-    console.log("hi")
-    console.log(data[0])
     return res.json(info);
   });
 };
@@ -23,7 +22,7 @@ export const updateUser = (req, res) => {
 
     const updateQuery =
       "UPDATE users SET `name`=?,`city`=?,`website`=?,`profilePic`=?,`coverPic`=? WHERE id=?";
-
+    db.connect()
     db.query(
       updateQuery,
       [
@@ -70,6 +69,7 @@ export const getSuggestions = (req, res) => {
   const q = "SELECT u.* FROM users u LEFT JOIN relationships r ON u.id = r.followedUserId AND r.followerUserId = ? WHERE r.id IS NULL AND u.id != ?;"
   try {
     // Replace with your database query to get users the current user hasn't followed
+    db.connect()
     db.query(
       q, [userId,userId],(err, data) => {
         if (err) return res.status(500).json(err);
@@ -95,6 +95,7 @@ export const getFriends = (req, res) => {
   `;
 
   try {
+    db.connect()
     db.query(query, [userId, userId, userId], (err, result) => {
       if (err) {
         console.error('Error fetching friends:', err);

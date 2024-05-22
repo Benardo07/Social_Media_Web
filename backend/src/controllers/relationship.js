@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 
 export const getRelationships = (req,res)=>{
     const q = "SELECT followerUserId FROM relationships WHERE followedUserId = ?";
-
+    db.connect()
     db.query(q, [req.query.followedUserId], (err, data) => {
       if (err) return res.status(500).json(err);
       return res.status(200).json(data.map(relationship=>relationship.followerUserId));
@@ -22,9 +22,7 @@ export const addRelationship = (req, res) => {
       userInfo.id,
       req.body.userId
     ];
-    console.log(userInfo.id)
-    console.log(req.body.userId)
-    console.log("hada")
+    db.connect()
     db.query(q, [values], (err, data) => {
       if (err) return res.status(500).json(err);
       return res.status(200).json("Following");
@@ -41,7 +39,7 @@ export const deleteRelationship = (req, res) => {
     if (err) return res.status(403).json("Token is not valid!");
 
     const q = "DELETE FROM relationships WHERE `followerUserId` = ? AND `followedUserId` = ?";
-
+    db.connect()
     db.query(q, [userInfo.id, req.query.userId], (err, data) => {
       if (err) return res.status(500).json(err);
       return res.status(200).json("Unfollow");

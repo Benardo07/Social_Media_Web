@@ -14,7 +14,7 @@ export const getStories = (req, res) => {
 
     const q = `SELECT s.*, name FROM stories AS s JOIN users AS u ON (u.id = s.userId)
     LEFT JOIN relationships AS r ON (s.userId = r.followedUserId AND r.followerUserId= ?) LIMIT 4`;
-
+    db.connect()
     db.query(q, [userInfo.id], (err, data) => {
       if (err) return res.status(500).json(err);
       return res.status(200).json(data);
@@ -35,7 +35,7 @@ export const addStory = (req, res) => {
       moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
       userInfo.id,
     ];
-
+    db.connect()
     db.query(q, [values], (err, data) => {
       if (err) return res.status(500).json(err);
       return res.status(200).json("Story has been created.");
@@ -51,7 +51,7 @@ export const deleteStory = (req, res) => {
     if (err) return res.status(403).json("Token is not valid!");
 
     const q = "DELETE FROM stories WHERE `id`=? AND `userId` = ?";
-
+    db.connect()
     db.query(q, [req.params.id, userInfo.id], (err, data) => {
       if (err) return res.status(500).json(err);
       if (data.affectedRows > 0)
