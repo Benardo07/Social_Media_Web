@@ -9,7 +9,6 @@ import relationshipRoutes from "./src/route/relationships.js";
 import cors from "cors";
 import multer from "multer";
 import cookieParser from "cookie-parser";
-const path = require('path');
 
 
 
